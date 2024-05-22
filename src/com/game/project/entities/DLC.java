@@ -4,6 +4,37 @@ import java.util.Objects;
 
 public class DLC extends Product{
 
+	public static class DLCBuilder{
+		
+		private String name;
+		private Double price;
+		private String description;
+		private Game game;
+		
+		public DLCBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+		public DLCBuilder setPrice(Double price) {
+			this.price = price;
+			return this;
+		}
+		public DLCBuilder setDescription(String description) {
+			this.description = description;
+			return this;
+		}
+		public DLCBuilder setGame(Game game) {
+			this.game = game;
+			return this;
+		}
+		
+		public DLC build() {
+			return new DLC(name, price, description, game);
+		}
+		
+		
+	}
+	
 	private Game game;
 	
 	public DLC(String name, Double price, String description, Game game) {

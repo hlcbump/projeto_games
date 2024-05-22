@@ -6,6 +6,45 @@ import java.util.Objects;
 
 public class Game extends Product{
 
+	public static class GameBuilder{
+			
+			private String name;
+			private Double price;
+			private String description;
+			private final List<Category> categories = new ArrayList<>();
+			private String developer;
+			private String publisher;
+			
+			public GameBuilder setName(String name) {
+				this.name = name;
+				return this;
+			}
+			public GameBuilder setPrice(Double price) {
+				this.price = price;
+				return this;
+			}
+			public GameBuilder setDescription(String description) {
+				this.description = description;
+				return this;
+			}
+			public GameBuilder setDeveloper(String developer) {
+				this.developer = developer;
+				return this;
+			}
+			public GameBuilder setPublisher(String publisher) {
+				this.publisher = publisher;
+				return this;
+			}
+			
+			public GameBuilder addCategory(Category category) {
+				categories.add(category);
+				return this;
+			}
+			
+			public Game build() {
+				return new Game(name, price, description, List.copyOf(categories), developer, publisher);
+			}
+	}
 	private final List<Category> categories = new ArrayList<Category>();
 	private String developer;
 	private String publisher;
