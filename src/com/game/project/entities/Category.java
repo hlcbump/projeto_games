@@ -1,4 +1,4 @@
-package com.game.projeto.entities;
+package com.game.project.entities;
 
 public enum Category {
 	RPG,

@@ -1,4 +1,4 @@
-package com.game.projeto.entities;
+package com.game.project.entities;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
