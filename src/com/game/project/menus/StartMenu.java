@@ -7,9 +7,13 @@ import java.util.Scanner;
 public class StartMenu implements Menu{
 
     private final GameStoreMenu gameStoreMenu;
+    private final CartMenu cartMenu;
+    private final LibraryMenu libraryMenu;
 
-    public StartMenu(Register register) {
+    public StartMenu(Register register, CartMenu cartMenu, LibraryMenu libraryMenu) {
         this.gameStoreMenu = new GameStoreMenu(register);
+        this.cartMenu = cartMenu;
+        this.libraryMenu = libraryMenu;
     }
 
     @Override
@@ -25,23 +29,23 @@ public class StartMenu implements Menu{
             System.out.print("Digite a opcão desejada: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            System.out.println("");
+            System.out.println();
 
             switch (choice){
                 case 1:
                     gameStoreMenu.show();
                     break;
                 case 2:
-                    //cartMenu.show();
+                    cartMenu.show();
                     break;
                 case 3:
-                   //libraryMenu.show();
+                   libraryMenu.show();
                     break;
                 case 4:
-                    System.out.println("Obrigado por visitar a nossa loja!");
+                    System.out.println("\nObrigado por visitar a nossa loja!\n");
                     return;
                 default:
-                    System.out.println("Opcão inválida. Tente novamente.");
+                    System.out.println("\nOpcão inválida. Tente novamente.\n");
             }
         }
     }

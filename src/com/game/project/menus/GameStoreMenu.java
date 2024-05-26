@@ -50,7 +50,7 @@ public class GameStoreMenu implements Menu{
                 case 6:
                     return;
                 default:
-                    System.out.println("Opcão inválida. Tente novamente");
+                    System.out.println("Opcão inválida. Tente novamente\n");
             }
         }
     }
@@ -123,9 +123,9 @@ public class GameStoreMenu implements Menu{
 
         if (selectedGame != null){
             // lógica para adicionar ao carrinho
-            System.out.println("Jogo adicionado ao carrinho com sucesso.");
+            System.out.println("\nJogo adicionado ao carrinho com sucesso.\n");
         } else {
-            System.out.println("Jogo não encontrado.");
+            System.out.println("\nJogo não encontrado.\n");
         }
     }
 }

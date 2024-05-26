@@ -12,8 +12,10 @@ public class Program {
 	
 	public static void main(String[] args) {
 
-		// Criando o registrador
+		// Criando os objetos (library usando o padrão Singleton)
 		Register register = new Register();
+		Cart cart = new Cart();
+		Library library = Library.getInstance();
 
 		// Adicionando alguns jogos apenas para teste
 		Game game1 = new Game("Rimworld", 59.99, "Slavery", Collections.singletonList(SANDBOX), "Tynan", "Ludeon");
@@ -23,8 +25,10 @@ public class Program {
 		register.insertGame(game2);
 
 		// Criando os menus
-		StartMenu startMenu = new StartMenu(register);
+		CartMenu cartMenu = new CartMenu(register, cart);
 		GameStoreMenu gameStoreMenu = new GameStoreMenu(register);
+		LibraryMenu libraryMenu = new LibraryMenu(library);
+		StartMenu startMenu = new StartMenu(register, cartMenu, libraryMenu);
 
 		// Mostrando o menu inicial
 		startMenu.show();
