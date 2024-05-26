@@ -58,8 +58,6 @@ public class Game extends Product{
 		this.setPublisher(publisher);
 		
 	}
-
-
 	public String getDeveloper() {
 		return developer;
 	}
@@ -68,7 +66,6 @@ public class Game extends Product{
 	public void setDeveloper(String developer) {
 		this.developer = developer;
 	}
-
 
 	public String getPublisher() {
 		return publisher;
@@ -106,6 +103,16 @@ public class Game extends Product{
 		return Objects.equals(developer, other.developer) && Objects.equals(publisher, other.publisher);
 	}
 
-	
-	
+	// Segundo esse artigo, é uma boa pratica fazer o método toString dentro da própria classe (https://www.devmedia.com.br/como-criar-sobreposicoes-usando-o-metodo-tostring-em-java/29042)
+	@Override
+	public String toString() {
+		return "Game {" +
+				"name='" + getName() + '\'' +
+				", price=" + getPrice() +
+				", description='" + getDescription() + '\'' +
+				", categories=" + categories +
+				", developer='" + developer + '\'' +
+				", publisher='" + publisher + '\'' +
+				'}';
+	}
 }

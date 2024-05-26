@@ -1,25 +1,16 @@
 package com.game.project.menus;
 
+import com.game.project.entities.Register;
+
 import java.util.Scanner;
 
 public class StartMenu implements Menu{
 
-    /*
-    private CartMenu cartMenu;
-    private LibraryMenu libraryMenu;
-    private GameStoreMenu gameStoreMenu;
+    private final GameStoreMenu gameStoreMenu;
 
-    public StartMenu(){
-
+    public StartMenu(Register register) {
+        this.gameStoreMenu = new GameStoreMenu(register);
     }
-
-    public StartMenu(CartMenu cartMenu, LibraryMenu libraryMenu, GameStoreMenu gameStoreMenu){
-        this.cartMenu = cartMenu;
-        this.libraryMenu = libraryMenu;
-        this.gameStoreMenu = gameStoreMenu;
-    }
-
-     */
 
     @Override
     public void show(){
@@ -31,13 +22,14 @@ public class StartMenu implements Menu{
             System.out.println("3. Biblioteca");
             System.out.println("4. Sair");
 
-            System.out.print("Digite a opcao desejada: ");
+            System.out.print("Digite a opcão desejada: ");
             int choice = sc.nextInt();
             sc.nextLine();
+            System.out.println("");
 
             switch (choice){
                 case 1:
-                    //gameStoreMenu.show();
+                    gameStoreMenu.show();
                     break;
                 case 2:
                     //cartMenu.show();
@@ -49,9 +41,8 @@ public class StartMenu implements Menu{
                     System.out.println("Obrigado por visitar a nossa loja!");
                     return;
                 default:
-                    System.out.println("Opcao invalida. Tente novamente.");
+                    System.out.println("Opcão inválida. Tente novamente.");
             }
         }
     }
-
 }
