@@ -25,7 +25,7 @@ public class Program {
 		register.insertGame(game2);
 
 		// Criando os menus
-		CartMenu cartMenu = new CartMenu(register, cart);
+		CartMenu cartMenu = new CartMenu(register, cart, library);
 		GameStoreMenu gameStoreMenu = new GameStoreMenu(register);
 		LibraryMenu libraryMenu = new LibraryMenu(library);
 		StartMenu startMenu = new StartMenu(register, cartMenu, libraryMenu);

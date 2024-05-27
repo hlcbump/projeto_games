@@ -2,19 +2,18 @@ package com.game.project.menus;
 
 import com.game.project.entities.*;
 
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Optional;
+import java.util.*;
 
 public class CartMenu implements Menu{
 
     private final Cart cart;
     private final Register register;
+    private final Library library;
 
-    public CartMenu(Register register, Cart cart){
+    public CartMenu(Register register, Cart cart, Library library){
         this.register = register;
         this.cart = cart;
+        this.library = library;
     }
 
     @Override
@@ -23,7 +22,7 @@ public class CartMenu implements Menu{
         Scanner sc = new Scanner(System.in);
 
         while(true){
-            System.out.println("Carrinho");
+            System.out.println("\nCarrinho");
             System.out.println("1. Adicionar jogos ao carrinho");
             System.out.println("2. Remover jogos do carrinho");
             System.out.println("3. Visualizar seu carrinho");
@@ -43,7 +42,7 @@ public class CartMenu implements Menu{
                     viewCart();
                     break;
                 case 4:
-                    checkout();
+                    checkout(sc);
                     break;
                 case 5:
                     return;
@@ -53,6 +52,7 @@ public class CartMenu implements Menu{
         }
     }
 
+    //método para mostrar todos os jogos do catálogo
     public void displayGames(List<Game> games){
         if(games.isEmpty()){
             System.out.println("Não há jogos disponíveis.\n");
@@ -68,17 +68,20 @@ public class CartMenu implements Menu{
         }
     }
 
+    //método para adicionar jogos no carrinho
     private void addGameToCart(Scanner sc){
-        System.out.println("Jogos disponiveis: ");
+        System.out.println("\nJogos disponiveis: ");
 
         List<Game> allGames = register.getAllGames().stream()
                 .toList();
 
+        //mostrando todos os jogos do catálogo
         displayGames(allGames);
 
-        System.out.println("Digite o NOME do jogo que deseja adicionar ao carrinho: ");
+        System.out.println("\nDigite o NOME do jogo que deseja adicionar ao carrinho: ");
         String name = sc.next();
 
+        //procurando o jogo na lista de jogos disponíveis no catalogo atráves da entrada name
         Game selectedGame = register.getAllGames().stream()
                 .filter(game -> game.getName().equalsIgnoreCase(name))
                 .findFirst()
@@ -92,8 +95,14 @@ public class CartMenu implements Menu{
         }
     }
 
+    //método para remover itens do carrinho
     private void removeGameFromCart(Scanner sc){
 
+        /*
+            -obtendo todos os produtos do carrinho-
+            o método getProducts() da classe Cart retorna um Set,
+            sendo assim a necessidade do set ao invés de lista
+        */
         Set<Product> myCart = cart.getProducts();
 
         if (!myCart.isEmpty()){
@@ -103,7 +112,7 @@ public class CartMenu implements Menu{
             System.out.println();
 
             while (true){
-                System.out.println("Remoção");
+                System.out.println("\nRemoção");
                 System.out.println("1. Remover apenas um jogo do carrinho");
                 System.out.println("2. Remover todos os jogos do carrinho");
                 System.out.println("3. Sair da remoção");
@@ -111,15 +120,13 @@ public class CartMenu implements Menu{
 
                 int choice = sc.nextInt();
 
-                // obtendo todos os produtos do meu carrinho
+                //obtendo todos os produtos do carrinho
                 Set<Product> products = cart.getProducts();
 
                 switch (choice){
                     case 1:
                         System.out.print("\nDigite o nome do jogo que deseja excluir: ");
                         String name = sc.next();
-
-
 
                         // utilizando optional para representar um valor que pode ou não estar presente
                         Optional<Product> gameToRemove = products.stream()
@@ -172,8 +179,10 @@ public class CartMenu implements Menu{
         }
     }
 
+    //método que verifica se há itens no carrinho
     private void viewCart(){
 
+        //obtendo todos os produtos do carrinho
         Set<Product> myCart = cart.getProducts();
 
         if (!myCart.isEmpty()){
@@ -185,15 +194,46 @@ public class CartMenu implements Menu{
         }
     }
 
-    private void checkout(){
+    //método que será usado pelo metodo checkout
+    private double calculateTotalPrice(Set<Product> products){
+        double totalPrice = 0.0;
 
+        for (Product product : products)
+            totalPrice += product.getPrice();
+        return totalPrice;
+    }
+
+    private void checkout(Scanner sc){
+
+        //obtendo todos os produtos do carrinho
         Set<Product> myCart = cart.getProducts();
 
         if(!myCart.isEmpty()){
-            // lógica para adicionar na biblioteca
-            System.out.println("Jogo adicionado com sucesso na sua bilioteca");
+
+            System.out.println("\nSeu carrinho contém: \n");
+            myCart.forEach(System.out::println);
+            System.out.println("\nPreço total: \n" + calculateTotalPrice(myCart));
+
+            System.out.println("\nDeseja efetuar a compra? (S ou N)\n");
+            String confirmation = sc.next();
+
+            //convertendo o set do carrinho para list
+            List<Product> productList = new ArrayList<>(myCart);
+
+            if (confirmation.equalsIgnoreCase("S")){
+
+                //criando um objeto purchase com a lista dos produtos em productList
+                Buy purchase = new Buy(productList);
+
+                //adicionando o objeto com a compra na biblioteca
+                library.addProductsPurchased(purchase);
+
+                System.out.println("\nJogo adicionado com sucesso na sua bilioteca.\n");
+            } else {
+                System.out.println("\nVocê escolheu não continuar com a compra.\n");
+            }
         } else {
-            System.out.println("Seu carrinho está vazio.");
+            System.out.println("\nSeu carrinho está vazio.\n");
         }
     }
 }
