@@ -52,46 +52,33 @@ public class CartMenu implements Menu{
         }
     }
 
-    //método para mostrar todos os jogos do catálogo
+    //método para mostrar os jogos do catálogo (sem utilizar toString)
     public void displayGames(List<Game> games){
         if(games.isEmpty()){
-            System.out.println("Não há jogos disponíveis.\n");
+            System.out.println("Não há jogos disponíveis.");
         } else {
             for (Game game : games){
-                /*
-                    Ao passar um objeto como argumento, automaticamente
-                    o método toString() da classe é chamado.
-                 */
-                System.out.println(game);
+                System.out.println("Jogo " + games.indexOf(game) + ": " + game.getName() + " " + game.getPrice() + " " + game.getDescription() + " " + game.getCategories());
             }
-            System.out.println();
         }
     }
 
-    //método para adicionar jogos no carrinho
-    private void addGameToCart(Scanner sc){
-        System.out.println("\nJogos disponiveis: ");
+    public void addGameToCart(Scanner sc){
 
-        List<Game> allGames = register.getAllGames().stream()
-                .toList();
+        List<Game> allGames = register.getAllGames();
 
-        //mostrando todos os jogos do catálogo
-        displayGames(allGames);
+        System.out.println("\nJogos disponíveis: \n");
+        displayGames(register.getAllGames());
+        System.out.println("\nDigite o Índice do jogo que deseja adicionar ao carrinho: ");
+        int gameIndex = sc.nextInt();
 
-        System.out.println("\nDigite o NOME do jogo que deseja adicionar ao carrinho: ");
-        String name = sc.next();
-
-        //procurando o jogo na lista de jogos disponíveis no catalogo atráves da entrada name
-        Game selectedGame = register.getAllGames().stream()
-                .filter(game -> game.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-
-        if (selectedGame != null){
+        if (gameIndex >= 0 && gameIndex < allGames.size()){
+            Game selectedGame = allGames.get(gameIndex);
+            System.out.println("Jogo escolhido: " + selectedGame);
             cart.insertProducts(selectedGame);
-            System.out.println("\nJogo adicionado ao carrinho com sucesso.\n");
+            System.out.println("\nJogo adicionado ao carrinho com sucesso.");
         } else {
-            System.out.println("\nJogo não encontrado.\n");
+            System.out.println("\nJogo não encontrado. Tente novamente");
         }
     }
 
@@ -222,8 +209,8 @@ public class CartMenu implements Menu{
 
             if (confirmation.equalsIgnoreCase("S")){
 
-                //criando um objeto purchase com a lista dos produtos em productList
-                Buy purchase = new Buy(productList);
+                //usando o método purchaseAll() de cart
+                Buy purchase = cart.purchaseAll();
 
                 //adicionando o objeto com a compra na biblioteca
                 library.addProductsPurchased(purchase);
