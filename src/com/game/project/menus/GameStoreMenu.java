@@ -8,9 +8,11 @@ import java.util.Scanner;
 public class GameStoreMenu implements Menu{
 
     private final Register register;
+    private final CartMenu cartMenu;
 
-    public GameStoreMenu(Register register) {
+    public GameStoreMenu(Register register, CartMenu cartMenu) {
         this.register = register;
+        this.cartMenu = cartMenu;
     }
 
     @Override
@@ -19,17 +21,17 @@ public class GameStoreMenu implements Menu{
         Scanner sc = new Scanner(System.in);
 
         while(true){
-            System.out.println("Catalogo");
+            System.out.println("\nCatalogo");
             System.out.println("1. Ver todos os jogos");
             System.out.println("2. Buscar por categoria");
             System.out.println("3. Buscar por nome");
-            System.out.println("4. Buscar por data");
-            System.out.println("5. Selecionar um jogo para o carrinho");
+            System.out.println("4. Selecionar um jogo para o carrinho");
+            System.out.println("5. Ir para o carrinho");
             System.out.println("6. Voltar para o Menu Principal");
 
             System.out.print("Selecione uma opcão: ");
             int choice = sc.nextInt();
-            System.out.println("");
+            sc.nextLine();
 
             switch (choice) {
                 case 1:
@@ -42,11 +44,10 @@ public class GameStoreMenu implements Menu{
                     filterByName(sc);
                     break;
                 case 4:
-                    //filterByDate(sc)
-                    break;
-                case 5:
                     selectGame(sc);
                     break;
+                case 5:
+                    cartMenu.show();
                 case 6:
                     return;
                 default:
@@ -55,16 +56,13 @@ public class GameStoreMenu implements Menu{
         }
     }
 
+    //método para mostrar os jogos do catálogo (sem utilizar toString)
     public void displayGames(List<Game> games){
         if(games.isEmpty()){
             System.out.println("Não há jogos disponíveis.");
         } else {
             for (Game game : games){
-                /*
-                    Ao passar um objeto como argumento, automaticamente
-                    o método toString() da classe é chamado.
-                 */
-                System.out.println(game);
+                System.out.println("Jogo " + games.indexOf(game) + ": " + game.getName() + " " + game.getPrice() + " " + game.getDescription() + " " + game.getCategories());
             }
         }
     }
@@ -76,7 +74,6 @@ public class GameStoreMenu implements Menu{
         (não é necessario importar porque estão sendo
         chamados em uma lista e não diretamente em um objeto)
      */
-
     public void filterByCategory(Scanner sc){
 
         System.out.println("\nCategorias: \n\n" + List.of(Category.values()) + "\n");
@@ -107,25 +104,7 @@ public class GameStoreMenu implements Menu{
         displayGames(filteredGames);
     }
 
-    // Game não há atributo date
-    public void filterByDate(Scanner sc){
-
-    }
-
     public void selectGame(Scanner sc){
-        System.out.println("Digite o NOME do jogo que deseja adicionar ao carrinho: ");
-        String name = sc.next();
-
-        Game selectedGame = register.getAllGames().stream()
-                .filter(game -> game.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-
-        if (selectedGame != null){
-            // lógica para adicionar ao carrinho
-            System.out.println("\nJogo adicionado ao carrinho com sucesso.\n");
-        } else {
-            System.out.println("\nJogo não encontrado.\n");
-        }
+        cartMenu.addGameToCart(sc);
     }
 }
