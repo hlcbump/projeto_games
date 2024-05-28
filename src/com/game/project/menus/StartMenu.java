@@ -1,6 +1,6 @@
 package com.game.project.menus;
 
-import com.game.project.entities.Register;
+import com.game.project.entities.*;
 
 import java.util.Scanner;
 
@@ -11,7 +11,7 @@ public class StartMenu implements Menu{
     private final LibraryMenu libraryMenu;
 
     public StartMenu(Register register, CartMenu cartMenu, LibraryMenu libraryMenu) {
-        this.gameStoreMenu = new GameStoreMenu(register);
+        this.gameStoreMenu = new GameStoreMenu(register, cartMenu);
         this.cartMenu = cartMenu;
         this.libraryMenu = libraryMenu;
     }
@@ -29,7 +29,6 @@ public class StartMenu implements Menu{
             System.out.print("Digite a opcão desejada: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            System.out.println();
 
             switch (choice){
                 case 1:
