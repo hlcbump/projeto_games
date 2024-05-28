@@ -106,7 +106,7 @@ public class Game extends Product{
 	// Segundo esse artigo, é uma boa pratica fazer o método toString dentro da própria classe (https://www.devmedia.com.br/como-criar-sobreposicoes-usando-o-metodo-tostring-em-java/29042)
 	@Override
 	public String toString() {
-		return "Game {" +
+		return "{" +
 				"name='" + getName() + '\'' +
 				", price=" + getPrice() +
 				", description='" + getDescription() + '\'' +
